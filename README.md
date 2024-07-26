@@ -1,5 +1,5 @@
 # Задание 2
-	Находять в корневой папке проекта:
+	Находясь в корневой папке проекта:
 1)	Корректные параметры:
 java -cp src ./src/main/java/ru/clevertec/check/CheckRunner.java 1-10 discountCard=5555 balanceDebitCard=100 pathToFile=./products.csv saveToFile=./correct_data.csv
 2)	Отсутствует параметр pathToFile:
