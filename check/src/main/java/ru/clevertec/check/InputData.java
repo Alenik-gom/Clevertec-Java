@@ -9,8 +9,13 @@ public class InputData {
     private int balanceCard;
     private int discountCard;
     private Map<Integer, Integer> productQuantities;
+    private String pathToFile;
+    private String saveToFile;
+    private String url;
+    private String username;
+    private String password;
 
-    public InputData(String[] args) throws IncorrectDataException {
+    public InputData(String[] args) throws  IncorrectDataException {
         validateInput(Arrays.asList(args));
 
         productQuantities = new HashMap<>();
@@ -49,8 +54,27 @@ public class InputData {
                         throw new IncorrectDataException();
                     }
                 }
+            } else if (arg.startsWith("datasource.url=")) {
+                String[] keyValue = arg.split("=", 2);
+                if (keyValue.length == 2) {
+                    url = keyValue[1];
+                }
+            } else if (arg.startsWith("datasource.username=")) {
+                String[] keyValue = arg.split("=", 2);
+                if (keyValue.length == 2) {
+                    username = keyValue[1];
+                }
+            } else if (arg.startsWith("datasource.password=")) {
+                String[] keyValue = arg.split("=", 2);
+                if (keyValue.length == 2) {
+                    password = keyValue[1];
+                }
+            } else if (arg.startsWith("saveToFile=")) {
+                String[] keyValue = arg.split("=", 2);
+                if (keyValue.length == 2) {
+                    saveToFile = keyValue[1];
+                }
             }
-
         }
     }
 
@@ -62,11 +86,26 @@ public class InputData {
         return discountCard;
     }
 
+    public String getPathToFile() {
+        return pathToFile;
+    }
+
+    public String getSaveToFile() {
+        return saveToFile;
+    }
+
+    public String getUrl() { return url; }
+
+    public String getUsername() { return username; }
+
+    public String getPassword() { return password; }
+
+
     public Map<Integer, Integer> getProductQuantities() {
         return productQuantities;
     }
 
-    private void validateInput(List<String> argsList) throws IncorrectDataException {
+    private void validateInput(List<String> argsList) throws  IncorrectDataException {
 
         // Проверяем наличие обязательного аргумента "balanceDebitCard"
         if (argsList.stream().noneMatch(arg -> arg.startsWith("balanceDebitCard="))) {
@@ -77,7 +116,18 @@ public class InputData {
         if (argsList.stream().noneMatch(arg -> arg.contains("-"))) {
             throw new IncorrectDataException();
         }
-
+        // Проверяем наличие обязательного аргумента "balanceDebitCard"
+        if (argsList.stream().noneMatch(arg -> arg.startsWith("saveToFile="))) {
+            throw new IncorrectDataException();
+        }
+        if (argsList.stream().noneMatch(arg -> arg.startsWith("datasource.url="))) {
+            throw new IncorrectDataException();
+        }
+        if (argsList.stream().noneMatch(arg -> arg.startsWith("datasource.username="))) {
+            throw new IncorrectDataException();
+        }
+        if (argsList.stream().noneMatch(arg -> arg.startsWith("datasource.password="))) {
+            throw new IncorrectDataException();
+        }
     }
-
 }

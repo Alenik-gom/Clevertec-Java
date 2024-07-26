@@ -7,7 +7,6 @@ public class DiscountCustom implements Discount {
         this.discountRate = discountRate;
     }
 
-
     @Override
     public int getDiscountRate() {
         return this.discountRate;

@@ -17,6 +17,10 @@ public class CheckPrinter {
         this.check = check;
     }
 
+    public static void setFileName(String saveToFile) {
+        fileName = saveToFile;
+    }
+
     public static String convertToMoney(int amount) {
         // тобраать 2 знака после запятой всегда
         BigDecimal amountBigDecimal = BigDecimal.valueOf(amount).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
@@ -59,8 +63,8 @@ public class CheckPrinter {
     private String printDiscountCard() {
         // сли карта редъявлена -показать
         String stringOutpit = "";
-        if (check.getDiscountCard().getNumber() != 0 ) {
-            stringOutpit ="\n"+ "DISCOUNT CARD;DISCOUNT PERCENTAGE" + "\n" +
+        if (check.getDiscountCard().getNumber() != 0) {
+            stringOutpit = "\n" + "DISCOUNT CARD;DISCOUNT PERCENTAGE" + "\n" +
                     check.getDiscountCard().toString() + "\n";
         }
         return stringOutpit;
@@ -68,11 +72,11 @@ public class CheckPrinter {
 
     public void printCheck() {
         String csvOutput = printHeader() +
-                           printLine() +
-                           printItems() +
-                           printDiscountCard() +
-                           printLine() +
-                           printFooter();
+                printLine() +
+                printItems() +
+                printDiscountCard() +
+                printLine() +
+                printFooter();
         System.out.println(csvOutput);
         writeToCSV(csvOutput);
     }

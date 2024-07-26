@@ -11,10 +11,6 @@ public class DiscountCard {
         this.rate = rate;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public int getNumber() {
         return number;
     }
