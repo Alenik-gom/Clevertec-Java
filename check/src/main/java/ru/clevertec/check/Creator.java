@@ -6,22 +6,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Creator {
-    private static String pathProducts = "./src/main/resources/products.csv";
+
     private static String pathDiscountCards = "./src/main/resources/discountCards.csv";
     private static Reader reader;
 
-    private static Reader createReader() {
+    private static Reader createReader(String pathProducts, String pathDiscountCards) {
         return reader = new FileReader( pathProducts, pathDiscountCards);
+    }
 
-    }
-    public static void setPathProducts(String path) {
-        pathProducts = path;
-    }
-    public static void setPathDiscountCards(String path) {
+    public void setPathDiscountCards(String path) {
         pathDiscountCards = path;
     }
 
-    private static List<CheckItem> createCheckItems(Map<Integer, Integer> productQuantities) throws IncorrectDataException {
+    private static List<CheckItem> createCheckItems(Map<Integer, Integer> productQuantities) throws IncorrectDataException, SQLException, ClassNotFoundException {
         // считываем список продуктов из файла
         List<Product> productsFile = reader.readProducts();
         // создаем айтемы в чеке из входных параметров
@@ -39,7 +36,7 @@ public class Creator {
         return checkLines;
     }
 
-    private static DiscountCard createDiscountCard(int cardNumber) {
+    private static DiscountCard createDiscountCard(int cardNumber) throws SQLException, ClassNotFoundException {
         // читам список доступных дисконтных кард из файла
         List<DiscountCard> discountCards = reader.readDiscountCards();
         // создаем дисконтную карту
@@ -47,7 +44,8 @@ public class Creator {
     }
     public static Check createCheck (InputData inputData) throws SQLException, IncorrectDataException, ClassNotFoundException, InsufficientBalanceException {
         // создаем обьект интерфейса, в нашем случае 1 способ чтения, но может быть и из файла
-        reader = createReader();
+        reader = createReader(inputData.getPathToFile(), pathDiscountCards);
+
         Check check = new Check();
         check.setItems( createCheckItems(inputData.getProductQuantities()));
         // проверяем, сходится ли общее количество товаров в чеке и стоке

@@ -9,8 +9,10 @@ public class InputData {
     private int balanceCard;
     private int discountCard;
     private Map<Integer, Integer> productQuantities;
+    private String pathToFile;
+    private String saveToFile;
 
-    public InputData(String[] args) throws IncorrectDataException {
+    public InputData(String[] args) throws EmptyPathProductsException, IncorrectDataException {
         validateInput(Arrays.asList(args));
 
         productQuantities = new HashMap<>();
@@ -49,8 +51,20 @@ public class InputData {
                         throw new IncorrectDataException();
                     }
                 }
+            } else if (arg.startsWith("pathToFile=")) {
+                String[] keyValue = arg.split("=", 2);
+                if (keyValue.length == 2) {
+                    pathToFile = keyValue[1];
+                }
+            } else if (arg.startsWith("saveToFile=")) {
+                String[] keyValue = arg.split("=", 2);
+                if (keyValue.length == 2) {
+                    saveToFile = keyValue[1];
+                }
             }
-
+        }
+        if (pathToFile == null) {
+            throw new EmptyPathProductsException(saveToFile);
         }
     }
 
@@ -62,11 +76,20 @@ public class InputData {
         return discountCard;
     }
 
+    public String getPathToFile() {
+        return pathToFile;
+    }
+
+    public String getSaveToFile() {
+        return saveToFile;
+    }
+
+
     public Map<Integer, Integer> getProductQuantities() {
         return productQuantities;
     }
 
-    private void validateInput(List<String> argsList) throws IncorrectDataException {
+    private void validateInput(List<String> argsList) throws EmptyPathProductsException, IncorrectDataException {
 
         // Проверяем наличие обязательного аргумента "balanceDebitCard"
         if (argsList.stream().noneMatch(arg -> arg.startsWith("balanceDebitCard="))) {
@@ -77,7 +100,9 @@ public class InputData {
         if (argsList.stream().noneMatch(arg -> arg.contains("-"))) {
             throw new IncorrectDataException();
         }
-
+        // Проверяем наличие обязательного аргумента "balanceDebitCard"
+        if (argsList.stream().noneMatch(arg -> arg.startsWith("saveToFile="))) {
+            throw new IncorrectDataException();
+        }
     }
-
 }

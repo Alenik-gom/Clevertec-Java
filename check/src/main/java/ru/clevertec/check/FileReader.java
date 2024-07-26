@@ -14,8 +14,8 @@ public class FileReader implements Reader {
         this.pathProducts = pathProducts;
         this.pathDiscountCards = pathDiscountCards;
     }
-
-    public List<Product> readProducts() {
+    @Override
+    public List<Product> readProducts() throws IncorrectDataException {
         List<Product> products = new ArrayList<>();
         String line;
         try (BufferedReader br = new BufferedReader(new java.io.FileReader(pathProducts))) {
@@ -28,14 +28,13 @@ public class FileReader implements Reader {
                 int quantityInStock = Integer.parseInt(values[3]);
                 boolean wholesaleProduct = Boolean.parseBoolean(values[4]);
                 products.add(new Product(id, description, price, quantityInStock, wholesaleProduct));
-
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IncorrectDataException();
         }
         return products;
     }
-
+@Override
     public List<DiscountCard> readDiscountCards() {
         List<DiscountCard> discountCards = new ArrayList<>();
         String line;
@@ -47,12 +46,12 @@ public class FileReader implements Reader {
                 int number = Integer.parseInt(values[1]);
                 int amount = Integer.parseInt(values[2]);
                 discountCards.add(new DiscountCard(id, number, amount));
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return discountCards;
     }
+
 }
 
