@@ -6,3 +6,4 @@ java -jar clevertec-check.jar 3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100
 2)	Не хватает параметра:
 java -jar clevertec-check.jar 3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100 saveToFile=./result.csv datasource.username=postgres datasource.password=postgres
 
+Покрытие юнит тестами приведено на скриншоте в папке
